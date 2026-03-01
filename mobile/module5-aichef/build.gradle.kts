@@ -57,3 +57,4 @@ plugins {
     // Plugin de KSP (Kotlin Symbol Processing)
     alias(libs.plugins.ksp) apply false
 }
+

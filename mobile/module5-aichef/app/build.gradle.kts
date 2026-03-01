@@ -5,7 +5,6 @@
 // Este archivo configura el módulo principal incluyendo todas las
 // dependencias de Firebase necesarias para Auth, Firestore y AI Logic.
 // =============================================================================
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
