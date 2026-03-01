@@ -84,8 +84,6 @@ class FirestoreRepository @javax.inject.Inject constructor() : IFirestoreReposit
         // Crear query para obtener solo las recetas del usuario
         // Ordenadas por fecha de creación (más recientes primero)
         val query = recipesCollection
-            .whereEqualTo("userId", userId)
-            .orderBy("createdAt", Query.Direction.DESCENDING)
 
         // Registrar listener para cambios en tiempo real
         val listenerRegistration = query.addSnapshotListener { snapshot, error ->
