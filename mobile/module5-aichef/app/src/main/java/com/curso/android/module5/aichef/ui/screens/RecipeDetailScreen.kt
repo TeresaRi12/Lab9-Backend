@@ -72,7 +72,6 @@ suspend fun captureRecipeComposableAsBitmap(
     val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
     val canvas = Canvas(bitmap)
 
-    // Fondo blanco
     canvas.drawColor(Color.WHITE)
 
     val paintTitle = Paint().apply {
@@ -82,22 +81,33 @@ suspend fun captureRecipeComposableAsBitmap(
         isAntiAlias = true
     }
 
-    // Dibujar título
     canvas.drawText(recipe.title, 50f, 100f, paintTitle)
 
-    // Cargar imagen con Coil
+    // 🔥 CARGA SEGURA CON COIL
     val loader = ImageLoader(context)
     val request = ImageRequest.Builder(context)
         .data(recipe.generatedImageUrl)
         .allowHardware(false)
         .build()
 
-    val result = (loader.execute(request) as SuccessResult).drawable
-    val recipeImage = (result).toBitmap()
+    val result = loader.execute(request)
 
-    val scaledImage = Bitmap.createScaledBitmap(recipeImage, 980, 600, true)
+    if (result is SuccessResult) {
 
-    canvas.drawBitmap(scaledImage, 50f, 180f, null)
+        val recipeImage = result.drawable.toBitmap()
+        val scaledImage = Bitmap.createScaledBitmap(recipeImage, 980, 600, true)
+        canvas.drawBitmap(scaledImage, 50f, 180f, null)
+
+    } else {
+        // 🔥 Si falla, dibujamos un placeholder
+        val paintError = Paint().apply {
+            color = Color.GRAY
+            textSize = 40f
+            isAntiAlias = true
+        }
+
+        canvas.drawText("Imagen no disponible", 50f, 250f, paintError)
+    }
 
     return bitmap
 }
