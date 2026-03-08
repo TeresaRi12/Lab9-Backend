@@ -66,6 +66,14 @@ let emptyState: HTMLElement;
 let noResultsState: HTMLElement;
 let countriesList: HTMLElement;
 
+//
+let regionFilter: HTMLSelectElement;
+/** Todos los países cargados desde la API */
+let allCountries: Country[] = [];
+/** Región seleccionada */
+let selectedRegion = 'all';
+//
+
 /**
  * Inicializa las referencias a los elementos del DOM.
  * Se llama una vez cuando la aplicación arranca.
@@ -80,7 +88,53 @@ function initializeElements(): void {
   emptyState = getRequiredElement<HTMLElement>('#emptyState');
   noResultsState = getRequiredElement<HTMLElement>('#noResultsState');
   countriesList = getRequiredElement<HTMLElement>('#countriesList');
+  //
+  regionFilter = getRequiredElement<HTMLSelectElement>('#regionFilter');
+  //
 }
+
+//
+function populateRegions(countries: Country[]): void {
+  const regions = new Set<string>();
+
+  countries.forEach(country => {
+    if (country.region) {
+      regions.add(country.region);
+    }
+  });
+
+  regions.forEach(region => {
+    const option = document.createElement('option');
+    option.value = region;
+    option.textContent = region;
+    regionFilter.appendChild(option);
+  });
+}
+
+function applyFilters(): void {
+  const query = searchInput.value.toLowerCase().trim();
+
+  let filtered = allCountries;
+
+  // filtro por región
+  if (selectedRegion !== 'all') {
+    filtered = filtered.filter(country => country.region === selectedRegion);
+  }
+
+  // filtro por nombre
+  if (query.length > 0) {
+    filtered = filtered.filter(country =>
+      country.name.common.toLowerCase().includes(query)
+    );
+  }
+
+  if (filtered.length === 0) {
+    render({ status: 'empty' });
+  } else {
+    render({ status: 'success', data: filtered });
+  }
+}
+//
 
 // =============================================================================
 // FUNCIONES DE RENDERIZADO DE ESTADO
@@ -203,10 +257,21 @@ async function handleSearch(): Promise<void> {
     // await pausa la ejecución hasta que la Promise se resuelve.
     // Si la Promise se rechaza, el error se captura en el catch.
     // =========================================================================
+    //
+    if (allCountries.length === 0) {
+      const countries = await searchCountries('');
+      allCountries = countries;
+      populateRegions(allCountries);
+    }
+    //
+
+applyFilters();
+return;
+
     const countries = await searchCountries(query);
 
     if (countries.length === 0) {
-      render({ status: 'empty' });
+      render({ status: 'success', data: [] });
     } else {
       render({ status: 'success', data: countries });
     }
@@ -283,6 +348,13 @@ function setupEventListeners(): void {
 
   // Botón de reintentar
   retryButton.addEventListener('click', handleRetry);
+
+  //
+  regionFilter.addEventListener('change', () => {
+    selectedRegion = regionFilter.value;
+    applyFilters();
+  });
+  //
 }
 
 /**
