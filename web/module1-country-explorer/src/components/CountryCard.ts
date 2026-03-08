@@ -15,6 +15,8 @@
 import type { Country } from '../types/country';
 import { formatNumber, formatCapitals } from '../utils/format';
 import { createElement } from '../utils/dom';
+//parte 2
+import { toggleFavorite, isFavorite } from '../utils/storage';
 
 /**
  * Crea una tarjeta de país para mostrar en la lista.
@@ -58,6 +60,15 @@ export function createCountryCard(
   // =========================================================================
   card.innerHTML = `
     <div class="relative">
+      <!-- Parte2 -->
+      <button 
+        class="favorite-btn absolute top-3 left-3 text-xl"
+        aria-label="Toggle favorite"
+      >
+        ${isFavorite(country.cca3) ? '❤️' : '🤍'}
+      </button>
+      <!--  -->
+
       <!-- Bandera del país -->
       <img
         src="${country.flags.svg}"
@@ -113,6 +124,16 @@ export function createCountryCard(
       </div>
     </div>
   `;
+
+  const favoriteBtn = card.querySelector('.favorite-btn') as HTMLButtonElement;
+
+  favoriteBtn.addEventListener('click', (event) => {
+    event.stopPropagation(); // evita abrir detalles
+
+    toggleFavorite(country.cca3);
+
+    favoriteBtn.textContent = isFavorite(country.cca3) ? '❤️' : '🤍';
+  });
 
   // =========================================================================
   // EVENT LISTENERS

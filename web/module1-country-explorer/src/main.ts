@@ -66,7 +66,7 @@ let emptyState: HTMLElement;
 let noResultsState: HTMLElement;
 let countriesList: HTMLElement;
 
-//
+//Parte 1
 let regionFilter: HTMLSelectElement;
 /** Todos los países cargados desde la API */
 let allCountries: Country[] = [];
@@ -88,12 +88,12 @@ function initializeElements(): void {
   emptyState = getRequiredElement<HTMLElement>('#emptyState');
   noResultsState = getRequiredElement<HTMLElement>('#noResultsState');
   countriesList = getRequiredElement<HTMLElement>('#countriesList');
-  //
+  //Parte 1
   regionFilter = getRequiredElement<HTMLSelectElement>('#regionFilter');
   //
 }
 
-//
+//Parte 1
 function populateRegions(countries: Country[]): void {
   const regions = new Set<string>();
 
@@ -257,7 +257,7 @@ async function handleSearch(): Promise<void> {
     // await pausa la ejecución hasta que la Promise se resuelve.
     // Si la Promise se rechaza, el error se captura en el catch.
     // =========================================================================
-    //
+    //Parte 1 
     const countries = await searchCountries(query);
 
     allCountries = countries;
@@ -270,7 +270,6 @@ async function handleSearch(): Promise<void> {
     return;
 
       } catch (error) {
-        // Determinamos el mensaje de error apropiado
         let message = 'Error desconocido al buscar países';
 
         if (error instanceof ApiError) {
@@ -345,7 +344,7 @@ function setupEventListeners(): void {
   // Botón de reintentar
   retryButton.addEventListener('click', handleRetry);
 
-  //
+  //Parte 1
   regionFilter.addEventListener('change', () => {
     selectedRegion = regionFilter.value;
     applyFilters();
