@@ -98,18 +98,9 @@ export function PropertyDetailPage(): React.ReactElement {
             </span>
           </div>
 
-          {/* Galería de imágenes adicionales */}
-          {property.images.length > 1 && (
-            <div className="grid grid-cols-4 gap-2">
-              {property.images.slice(1).map((img, index) => (
-                <img
-                  key={index}
-                  src={img}
-                  alt={`${property.title} - Imagen ${index + 2}`}
-                  className="w-full h-24 object-cover rounded-lg"
-                />
-              ))}
-            </div>
+          {/* Parte 2 */}
+          {property.images.length > 0 && (
+            <ImageGallery images={property.images} title={property.title} />
           )}
 
           {/* Descripción */}
