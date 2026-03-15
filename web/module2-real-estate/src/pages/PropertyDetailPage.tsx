@@ -22,6 +22,9 @@ import {
 } from '@/types/property';
 import { formatPrice, formatArea } from '@/lib/utils';
 
+// Parte2
+import ImageGallery from "@/components/ImageGallery";
+
 /**
  * Página de detalle de una propiedad.
  */
