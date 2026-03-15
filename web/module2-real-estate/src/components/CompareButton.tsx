@@ -23,7 +23,14 @@ const CompareButton: React.FC<CompareButtonProps> = ({ property }) => {
         alert("You can only compare up to 3 properties");
         return;
       }
-      stored.push(property);
+      stored.push({
+        id: property.id,
+        title: property.title,
+        price: property.price,
+        bedrooms: property.bedrooms,
+        bathrooms: property.bathrooms,
+        area: property.area
+        });
     }
 
     localStorage.setItem("compare", JSON.stringify(stored));
