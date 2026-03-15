@@ -10,7 +10,6 @@
 // - Hooks mejorados
 // =============================================================================
 
-import type React from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Bed, Bath, Square, Tag } from 'lucide-react';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
@@ -18,6 +17,9 @@ import { Button } from '@/components/ui/button';
 import type { Property } from '@/types/property';
 import { PROPERTY_TYPE_LABELS, OPERATION_TYPE_LABELS } from '@/types/property';
 import { formatPrice, formatArea, truncateText } from '@/lib/utils';
+
+// Parte 1
+import CompareButton from '@/components/CompareButton';
 
 /**
  * Props del componente PropertyCard.
@@ -121,6 +123,9 @@ export function PropertyCard({ property, onDelete }: PropertyCardProps): React.R
         <Button asChild className="flex-1">
           <Link to={`/property/${property.id}`}>Ver detalles</Link>
         </Button>
+
+        {/* --- Parte 1 --- */}
+        <CompareButton property={property} />
 
         {/* Botón eliminar (si se proporciona callback) */}
         {onDelete && (
