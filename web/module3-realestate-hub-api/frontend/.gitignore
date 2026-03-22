@@ -3,6 +3,7 @@ node_modules/
 
 # Build output
 dist/
+dist-temp/
 
 # Environment variables
 .env
@@ -31,3 +32,4 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+.vercel

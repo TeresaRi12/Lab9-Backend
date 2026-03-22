@@ -4,6 +4,9 @@
 
 > Proyecto completo con backend Express/Prisma y frontend React que lo consume.
 
+**Backend (Cloud Run):** https://module3-backend-334687871.us-central1.run.app
+**Frontend (Vercel):** https://module3-realestate.vercel.app
+
 ---
 
 ## Estructura del Proyecto
@@ -51,8 +54,8 @@ module3-realestate-hub-api/
 | Dependencia | Version |
 |-------------|---------|
 | React | 19.2.1 |
-| Vite | 7.3.0 |
-| TypeScript | 5.9.3 |
+| Vite | 6.4.1 |
+| TypeScript | ^5.7.0 |
 | Tailwind CSS | 4.1.8 |
 
 ---
@@ -65,7 +68,7 @@ module3-realestate-hub-api/
 cd backend
 
 # Instalar dependencias
-npm install --legacy-peer-deps
+npm install
 
 # Generar cliente Prisma
 npm run db:generate
@@ -86,7 +89,7 @@ npm run dev
 cd frontend
 
 # Instalar dependencias
-npm install --legacy-peer-deps
+npm install
 
 # Iniciar servidor (puerto 3001)
 npm run dev
@@ -260,10 +263,8 @@ Ver [backend/API_CONTRACT.md](./backend/API_CONTRACT.md) para documentacion deta
 
 ## Notas sobre Instalacion
 
-> **Sobre --legacy-peer-deps**: Este flag es necesario porque algunas dependencias
-> aun no declaran soporte para las versiones mas recientes de TypeScript 5.9,
-> Prisma 7, y Vite 7. El flag permite instalar las dependencias ignorando
-> conflictos de peer dependencies. Las dependencias funcionan correctamente.
+> **Nota**: Las dependencias del frontend usan Vite 6.4.1 para compatibilidad
+> con los plugins `@tailwindcss/vite` y `@vitejs/plugin-react`.
 
 ---
 
