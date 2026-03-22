@@ -35,7 +35,37 @@ import { propertyRepository } from '../repositories/propertyRepository.js';
 
 export async function getAllProperties(req: Request, res: Response): Promise<void> {
   try {
-    // Extraemos filtros de los query params
+    // ============================
+    // 1. PAGINATION PARAMS
+    // ============================
+    const page = req.query.page ? Number(req.query.page) : 1;
+    const limit = req.query.limit ? Number(req.query.limit) : 10;
+
+    // ============================
+    // 2. VALIDATION
+    // ============================
+    if (
+      isNaN(page) || isNaN(limit) ||
+      page <= 0 || limit <= 0
+    ) {
+      res.status(400).json({
+        success: false,
+        error: {
+          message: 'Parámetros page y limit deben ser números positivos',
+          code: 'INVALID_PAGINATION',
+        },
+      });
+      return;
+    }
+
+    // ============================
+    // 3. CALCULAR SKIP
+    // ============================
+    const skip = (page - 1) * limit;
+
+    // ============================
+    // 4. FILTROS
+    // ============================
     const filters: PropertyFilters = {
       search: req.query.search as string | undefined,
       propertyType: req.query.propertyType as PropertyFilters['propertyType'],
@@ -46,13 +76,33 @@ export async function getAllProperties(req: Request, res: Response): Promise<voi
       city: req.query.city as string | undefined,
     };
 
-    // Delegamos al repositorio
-    const properties = await propertyRepository.findAll(filters);
+    // ============================
+    // 5. CONSULTAS
+    // ============================
+    const [properties, total] = await Promise.all([
+      propertyRepository.findAll(filters, { skip, take: limit }),
+      propertyRepository.count(filters),
+    ]);
 
+    // ============================
+    // 6. CALCULAR PÁGINAS
+    // ============================
+    const pages = Math.ceil(total / limit);
+
+    // ============================
+    // 7. RESPUESTA
+    // ============================
     res.json({
       success: true,
       data: properties,
+      meta: {
+        total,
+        page,
+        limit,
+        pages,
+      },
     });
+
   } catch (error) {
     console.error('Error al obtener propiedades:', error);
     res.status(500).json({

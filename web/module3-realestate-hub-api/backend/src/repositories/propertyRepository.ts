@@ -121,16 +121,29 @@ export const propertyRepository = {
   /**
    * Busca todas las propiedades con filtros opcionales.
    */
-  async findAll(filters?: PropertyFilters): Promise<Property[]> {
+  async findAll(
+    filters?: PropertyFilters,
+    pagination?: { skip: number; take: number }
+  ): Promise<Property[]> {
     const where = buildWhereClause(filters);
 
     const properties = await prisma.property.findMany({
       where,
+      skip: pagination?.skip,
+      take: pagination?.take,
       orderBy: { createdAt: 'desc' },
     });
 
     return properties.map(toProperty);
   },
+  
+
+  async count(filters?: PropertyFilters): Promise<number> {
+    const where = buildWhereClause(filters);
+
+    return prisma.property.count({ where });
+  },
+
 
   /**
    * Busca una propiedad por ID.
