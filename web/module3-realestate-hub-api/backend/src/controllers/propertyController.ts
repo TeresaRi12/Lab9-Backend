@@ -33,6 +33,7 @@ import { propertyRepository } from '../repositories/propertyRepository.js';
 // Reemplaza: localStorage.getItem('properties')
 // =============================================================================
 
+//Parte1
 export async function getAllProperties(req: Request, res: Response): Promise<void> {
   try {
     // ============================

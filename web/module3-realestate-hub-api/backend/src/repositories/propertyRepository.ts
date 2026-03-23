@@ -35,6 +35,7 @@ import type { Property, PropertyFilters, CreatePropertyInput, UpdatePropertyInpu
 // Usamos @prisma/adapter-better-sqlite3 para SQLite.
 // =============================================================================
 
+//Parte1
 const adapter = new PrismaBetterSqlite3({ url: 'file:./prisma/dev.db' });
 const prisma = new PrismaClient({ adapter });
 
@@ -117,6 +118,8 @@ function toPrismaData(data: CreatePropertyInput | UpdatePropertyInput): Record<s
  * Centraliza todas las operaciones de base de datos relacionadas con propiedades.
  * El controlador solo llama métodos del repositorio, no interactúa con Prisma directamente.
  */
+
+//Parte1
 export const propertyRepository = {
   /**
    * Busca todas las propiedades con filtros opcionales.
@@ -143,7 +146,7 @@ export const propertyRepository = {
 
     return prisma.property.count({ where });
   },
-
+ ///////// Parte 1 fin
 
   /**
    * Busca una propiedad por ID.
