@@ -12,6 +12,7 @@
 
 import { PrismaClient } from '@prisma/client';
 
+
 const prisma = new PrismaClient();
 
 // Datos de ejemplo (los mismos que en Module 2)
