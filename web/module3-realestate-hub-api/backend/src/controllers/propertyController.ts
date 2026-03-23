@@ -116,6 +116,51 @@ export async function getAllProperties(req: Request, res: Response): Promise<voi
   }
 }
 
+//Parte2
+export async function getPropertyStats(req: Request, res: Response): Promise<void> {
+  try {
+    // TOTAL
+    const total = await propertyRepository.count();
+
+    // COUNT + AVG POR TIPO
+    const grouped = await propertyRepository.groupByType();
+
+    // MIN Y MAX
+    const priceRange = await propertyRepository.getPriceRange();
+
+    // Transformamos resultados
+    const byType: Record<string, number> = {};
+    const avgPriceByType: Record<string, number> = {};
+
+    grouped.forEach((item) => {
+      byType[item.propertyType] = item._count.propertyType;
+      avgPriceByType[item.propertyType] = item._avg.price ?? 0;
+    });
+
+    res.json({
+      success: true,
+      data: {
+        total,
+        byType,
+        avgPriceByType,
+        priceRange: {
+          min: priceRange._min.price ?? 0,
+          max: priceRange._max.price ?? 0,
+        },
+      },
+    });
+  } catch (error) {
+    console.error('Error en estadísticas:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: 'Error interno del servidor',
+        code: 'INTERNAL_ERROR',
+      },
+    });
+  }
+}
+
 // =============================================================================
 // GET /api/properties/:id - Obtener una propiedad por ID
 // =============================================================================

@@ -148,6 +148,32 @@ export const propertyRepository = {
   },
  ///////// Parte 1 fin
 
+ //Parte2
+  async count(): Promise<number> {
+      return prisma.property.count();
+    },
+
+    async groupByType() {
+      return prisma.property.groupBy({
+        by: ['propertyType'],
+        _count: {
+          propertyType: true,
+        },
+        _avg: {
+          price: true,
+        },
+      });
+    },
+
+  //fin parte 2
+
+  async getPriceRange() {
+    return prisma.property.aggregate({
+      _min: { price: true },
+      _max: { price: true },
+    });
+  },
+
   /**
    * Busca una propiedad por ID.
    */
