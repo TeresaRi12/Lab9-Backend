@@ -23,7 +23,7 @@ Se implementó un endpoint de estadísticas para obtener métricas clave sobre l
 - Rango de precios
 - Manejo de base de datos vacía
 
-Link del video: https://youtu.be/Cm5t5fOx54E
+Link del video: https://youtu.be/ZEyuOeWAtUo
 
 
 Con ayuda de IA pude agilizar parte del proyecto y la documentacion, asi como comprender mejor el funcionamiento de Android, 
