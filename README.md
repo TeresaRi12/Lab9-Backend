@@ -1,41 +1,27 @@
 ## María Teresa Rivera López
 ## 24000579
 
-Lab0 Parte1-Parte2
-## Parte 1 – Creación de Spots con Cámara y GPS
-- Captura de foto con CameraX:
-  Uso de ImageCapture para tomar fotografías.
-  Almacenamiento de la imagen en almacenamiento interno.
-  Manejo granular de errores de cámara (CameraClosed, HardwareIssue, etc.).
-
-- Obtención de ubicación GPS:
-  Uso de Location Services.
-  Fallback a última ubicación conocida si no hay ubicación fresca.
-  Validación de coordenadas antes de guardar.
-
-- Manejo granular de errores:
-  Uso de sealed classes para representar errores controlados.
-  Conversión de excepciones en resultados de negocio (CreateSpotResult).
-  Limpieza automática de archivos si ocurre un error.
-
-- Persistencia con Room:
-  Almacenamiento local de Spots.
+Lab09 Parte1-Parte2
+## Parte 1 – Pagination & Metadata
+- Parametros
+  page: número de página (por defecto = 1)
+  limit: cantidad de registros por página (por defecto = 10)
+- Total de registros
+  prisma.property.count()
+- Cálculo de páginas
+- Paginación con Prisma
+- Manejo de páginas vacías
 
 
-## Parte 2 – liminación de Spots con Limpieza
-- Eliminación coordinada :
-  Borrado del registro en Room.
-  Eliminación del archivo de imagen asociado en almacenamiento interno.
-  Prevención de archivos huérfanos.
+## Parte 2 – Property Statistics
+Se implementó un endpoint de estadísticas para obtener métricas clave sobre las propiedades almacenadas en la base de datos.
 
-- Reactividad automática:
-  Uso de Flow<List<SpotEntity>>.
-  El mapa se actualiza automáticamente al eliminar un Spot.
-  No se requiere refrescar manualmente.
-
-- Manejo de casos límite:
-  Eliminación segura si el archivo no existe.
-  Prevención de inconsistencias entre base de datos y almacenamiento.
+- Total de propiedades
+  prisma.property.count()
+- Conteo por tipo
+- Promedio de precios por tipo
+- Rango de precios
+- Manejo de base de datos vacía
 
 Link del video: https://youtu.be/Cm5t5fOx54E
 
